@@ -6,7 +6,7 @@ import "./PlayingCardList.css";
 
 /* Renders a list of playing cards.
  * Can also add a new card at random. */
-function CardTable() {
+function PlayingCardList() {
   const [cards, setCards] = useState([]);
   const addCard = async () => {
     const response = await axios.get(
@@ -29,6 +29,6 @@ function CardTable() {
   );
 }
 
-CardTable.defaultProps = {};
+PlayingCardList.defaultProps = {};
 
-export default CardTable;
+export default PlayingCardList;
