@@ -12,13 +12,15 @@ const useFlip = () => {
 }
 
 /** Make axios call to fetch new card, or remove all cards from state */
-const useAxios = (url) => {
+const useAxios = (url, formatFn) => {
     const [cards, setCards] = useState([]);
 
     const addCard = async (pokeName="") => {
         if (pokeName.length > 0) {url = url.concat(pokeName)};
         const response = await axios.get(url);
-        setCards(cards => [...cards, { ...response.data, id: uuid() }]);
+        const stateData = formatFn(response);
+
+        setCards(cards => [...cards, { ...stateData, id: uuid() }]);
     };
 
     const removeCards = () => {

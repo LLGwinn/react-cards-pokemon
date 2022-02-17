@@ -8,7 +8,18 @@ import {useAxios} from './hooks';
  * Can also add a new card at random,
  * or from a dropdown of available pokemon. */
 function PokeDex() {
-  const [newCards, setNewCards, removeCards] = useAxios('https://pokeapi.co/api/v2/pokemon/');
+  const formatPokeData = (responseData) => {
+    return {front: responseData.data.sprites.front_default,
+            back: responseData.data.sprites.back_default,
+            name: responseData.data.name,
+            stats: responseData.data.stats.map(stat => ({
+              value: stat.base_stat,
+              name: stat.stat.name
+            }))}
+  }
+
+  const [newCards, setNewCards, removeCards] = 
+    useAxios('https://pokeapi.co/api/v2/pokemon/', formatPokeData);
 
   return (
     <div className="PokeDex">
@@ -20,13 +31,10 @@ function PokeDex() {
         {newCards.map(cardData => (
           <PokemonCard
             key={cardData.id}
-            front={cardData.sprites.front_default}
-            back={cardData.sprites.back_default}
+            front={cardData.front}
+            back={cardData.back}
             name={cardData.name}
-            stats={cardData.stats.map(stat => ({
-              value: stat.base_stat,
-              name: stat.stat.name
-            }))}
+            stats={cardData.stats}
           />
         ))}
       </div>
