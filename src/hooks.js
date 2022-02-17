@@ -14,8 +14,8 @@ const useFlip = () => {
 /** Make axios call to fetch new card */
 const useAxios = (url) => {
     const [cards, setCards] = useState([]);
-
-    const addCard = async () => {
+    const addCard = async (pokeName="") => {
+        if (pokeName.length > 0) {url = url.concat(pokeName)};
         const response = await axios.get(url);
         setCards(cards => [...cards, { ...response.data, id: uuid() }]);
     };
